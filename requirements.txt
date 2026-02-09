@@ -1,0 +1,14 @@
+pandas
+numpy
+matplotlib
+seaborn
+fredapi
+wbdata
+requests
+statsmodels
+scipy
+jupyter
+quarto
+pandas-datareader
+wbgapi
+owid-catalog

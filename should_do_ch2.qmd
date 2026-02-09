@@ -1,0 +1,312 @@
+---
+title: "Should Do Ch2 – GDP, Measurement, and Welfare"
+subtitle: "Liam Beckett Jorgensen"
+format: 
+  html:
+    embed-resources: true
+    toc: true
+---
+```{python}
+#| echo: false
+#| warning: false
+#| message: false
+#| results: hide
+
+# Import libraries and helpers for data analysis
+import os
+from should_do_ch2_helpers import *
+import os, requests
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Ensure FRED API key is set in environment (set via terminal: $Env:FRED_API_KEY = "your_key")
+# If not set, uncomment and replace below:
+# os.environ['FRED_API_KEY'] = '4fe1c479d0e137bf8999053e18c69808'
+
+```
+
+## Objective
+
+This assignment will strengthen your ability to think like a macroeconomist who uses measurement frameworks and data rather than slogans or definitions. The emphasis is on economic judgment, interpretation, and explanation.
+
+## Learning Outcomes Assessed
+
+<details>
+
+<summary><strong>2.1 Explain the need and importance of national accounting systems</strong></summary>
+
+</details>
+
+<details>
+  <summary><strong>2.3 Discuss national income and expenditure trends</strong></summary>
+
+  <details style="margin-left: 20px;">
+    <summary>2.3.1 Describe nominal GDP and measure it using the expenditure, income, and production approaches</summary>
+    
+    - 2.3.1.1 Define GDP  
+    Gross Domestic Product is the total monitary value of all final goods and services produced within a country's boarder over a specific time period.
+
+    - 2.3.1.19 Explain why the production, expenditure, and income measures of GDP are conceptually equivalent and identify common reconciliation issues
+    GDP measures are equivelant becasue every dollar spent (expenditure) becomes income for someone, and that income is used to produce goods, creating a circular flow. Measuirng total production, spending, income (wages, rent, interest, profit) should yield the same value. Although, in practice, discrepancies areise from incomplete data, timing differences, and statistical challenges in tracking all economic activity.
+
+    - 2.3.1.20 Differentiate government purchases (G) from total government spending, including transfers and interest payments  
+    Government spending (G) is direct spending on goods and servies (defense, roads, salaries) counted in GDP, while total governemnt spending (expenditures) is more broad, including government plus transfer payments, none of which are in GDP.
+
+    - 2.3.1.21 Identify intellectual property products (e.g., R&D/software) as investment and explain why classification choices can affect measured shares  
+    Intellectual propery products (IPP), such as Reasearch and Development (R&D) and software, are classified as fixed investment in modern national accounting becasue they are used repeatedly in production processes amd provide long-lasting service to businesses, nonprofits, and governments, as opposed to being consumed within a single production cycle. 
+
+  </details>
+
+</details>
+
+<details>
+  <summary><strong>2.4 Analyze income differences across countries</strong></summary>
+
+
+  <details style="margin-left: 20px;">
+    <summary><strong>2.4.3 Compare national income and national welfare concepts across countries</strong></summary>
+
+    - 2.4.3.1 Define human wellbeing  
+    A positive state encompassing physical, mental, emotional, and social health. It also includes life satisfaction, purpose, and the ability to function well in daily life, extending to community and social conditions.
+
+    - 2.4.3.2 List limitations of GDP in measuring national wellbeing
+    A. Ignoring income inequality
+    B. Non-market activities (example: volunteering)
+    C. Enviornmental damage
+    D. Health
+    E. Education
+    F. Leisure
+
+    - 2.4.3.3 Explain a “beyond GDP” welfare approach that adjusts income with health/longevity and other wellbeing components, and how rankings can change  
+    A "Beyond GDP" welfare approach would adjust conventional economic output (GDP per capita) by incorporating non-market factors that directly affect human well-being, most notably health, longevity, and leisure time. For example: a metric such as Healthy Lifetime Income (HLI), or Inequality-Adjusted Healthy Lifetime Income (IHLI) calculate the total welfare income plus life years in good health that a person can expect to enjoy.
+
+    - 2.4.3.5 Describe alternative approaches to measuring national wellbeing  
+    Alternative approaches include using multi-dimensional frameworks that incorporate health, education, living standards, enviornmental quality, social connections, and subjective happiness. This could be done using the UN's Human Development Index (HDI), OECD Better Life Index, Happy Planet Index (HPI), and/or Gross National Happiness (GNH).
+
+  </details>
+
+</details>
+
+## Sources (required)
+
+You must use all of the following:
+
+1. Article: *GDP: One of the Great Inventions of the 20th Century*  
+2. Podcast: Diane Coyle on GDP  
+3. Federal Reserve Economic Data - [FRED](https://fred.stlouisfed.org/) using their [API](https://fred.stlouisfed.org/docs/api/fred/)
+4. World Bank – World Development Indicators (via FRED or [World Bank access](https://datacatalog.worldbank.org/search/dataset/0037712/world-development-indicators))
+
+Additional sources may be used for context, but they do not replace these required sources.
+
+## Part A — Reasoning about GDP boundaries (LO 2.3)
+
+1. Create two original economic transactions that are plausibly confusing in the context of GDP measurement. At least one must involve government activity or intangibles. They should not be examples already cited in the textbook.
+
+2. For one of those transactions, write a multiple-choice question with:
+   - Four answer options (A–D)
+   - Exactly one correct answer
+   - Three plausible but incorrect distractors
+3. Clearly state:
+   - The correct answer
+   - Why it is correct
+   - Why each incorrect option is wrong
+
+Your explanation should rely on GDP logic (final vs intermediate goods, transfers, production boundary, or classification rules), not on memorized definitions.
+
+::: {.callout-note title="Answer" icon="false"}
+Transaction 1: A tech startup hires a freelance programmer to develop custom software for their app. The programmer charges $50,000, and the startup pays it as a business expense. One might think this is just a "service" purchase, not part of GDP, or confuse it with intermediate goods (like raw materials). It's intangible (software isn't physical), so it might seem "non-productive."
+
+Transaction 2: The U.S. government pays $100 million in interest to holders of Treasury bonds (including foreign investors) as part of its annual budget. One might think government spending on interest is a "purchase" like buying roads or salaries, so it should be in G (government purchases). Or, they might see it as a transfer payment (like welfare), which isn't in GDP.
+
+Multiple Choice Question: A company purchases $10,000 worth of custom software development from a freelancer. Is this transaction included in U.S. GDP, and if so, in which component?
+A) No, because software is intangible and not a physical good.
+B) Yes, in Consumption (C), as it's a service purchase.
+C) Yes, in Investment (I), as software is a capital good.
+D) No, because it's an intermediate input, not a final good.
+
+Correct Answer: C) Yes, in Investment (I), as software is a capital good.
+
+Why A is wrong: Intangibles are included if they're final/investment.
+Why B is wrong: It's not consumption; consumption is for households, and this is business investment.
+Why D is wrong: Software here is a final capital good, not intermediate (like materials consumed immediately).
+:::
+
+## Part B — Expenditure components and trends (LO 2.3)
+
+Using FRED API direct dowload, obtain US Nominal GDP and all major expenditure components:
+
+- Consumption  
+- Investment  
+- Government purchases  
+- Exports  
+- Imports  
+
+Your deliverables include:
+
+1. A table showing expenditure shares (as percentages of nominal GDP) for the most recent five quarterly observations.
+2. A figure showing how these shares evolve since 1960 until today.
+3. A written interpretation (250–400 words) that:
+   - Identifies at least one meaningful long-run change in expenditure composition
+   - Connects at least one change to a historical or structural explanation
+   - Explains one limitation of interpreting expenditure shares mechanically
+
+
+::: {.callout-note title="Answer" icon="false"}
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+# Fetch US expenditure data from FRED (verify series codes on FRED if needed)
+series_map = {
+    'GDP': 'GDP',  # Nominal GDP
+    'Consumption': 'PCE',  # Personal Consumption Expenditures
+    'Investment': 'GPDI',  # Gross Private Domestic Investment
+    'Federal_Gov': 'FGCE',  # Federal Government Consumption Expenditures
+    'State_Local_Gov': 'SLCE',  # State and Local Government Consumption Expenditures
+    'Exports': 'EXPGS',  # Exports of Goods and Services
+    'Imports': 'IMPGS'   # Imports of Goods and Services
+}
+df = fetch_fred_dataframe(series_map, start='1960-01-01')
+
+# Sum federal and state/local for total Government purchases (G)
+df['Government'] = df['Federal_Gov'] + df['State_Local_Gov']
+
+# Compute expenditure shares as % of GDP
+shares = compute_expenditure_shares(df, gdp_col='GDP')
+
+# Filter to quarterly observations (where GDP is available) to align all series
+shares = shares.dropna(subset=['GDP'])
+
+# Debug: Check shares data
+print("Shares data from 1960 onwards (quarterly):")
+print(shares.loc['1960':].head())
+print("Shares shape:", shares.shape)
+
+# Deliverable 1: Table of most recent 5 quarterly shares
+latest_table = latest_quarters_table(shares, n=5)
+print("Expenditure Shares (% of Nominal GDP, most recent 5 quarters):")
+latest_table  # Display table
+
+# Deliverable 2: Time series plot since 1960
+plot_shares_time_series(shares, start_year=1960, title='US Expenditure Shares (1960-Present)')
+
+```
+
+The U.S. expenditure shares, as shown in the table and figure, reveal significant long-run shifts in economic composition since 1960. One prominent change is the steady increase in the government purchases share (G), rising from approximately 18% of GDP in the early 1960s to around 20-22% in recent years. This upward trend reflects structural expansions in the welfare state, including the growth of Social Security and Medicare programs in the 1960s and 1970s, as well as increased defense spending following events like the 9/11 attacks and subsequent wars. These policy-driven increases in government consumption and investment have made G a larger portion of total output over time.
+
+In contrast, the consumption share (C) has remained relatively stable, hovering between 60-65% of GDP throughout the period, underscoring its role as the bedrock of household-driven economic activity. Investment (I) has been more volatile, declining slightly overall from peaks in the 1960s and 1970s, influenced by business cycle fluctuations and the offshoring of manufacturing to countries like China, which reduced domestic capital formation. Net exports (NX) have shifted from a slight surplus in the 1960s to a persistent deficit, driven by rising imports of goods and energy, particularly oil crises in the 1970s and ongoing trade imbalances with Asia.
+
+These patterns highlight how globalization, demographic changes (e.g., aging populations increasing entitlement spending), and fiscal policies have reshaped the economy. However, interpreting shares mechanically has limitations. For instance, expenditure shares do not account for relative price changes; healthcare and education costs have risen faster than general inflation, artificially inflating G's share without a proportional increase in real government activity. Additionally, statistical reclassifications—such as moving software development from investment to consumption—can distort historical comparisons, making trends appear more pronounced than they are in reality. Thus, while shares provide a useful snapshot, they must be supplemented with volume measures and quality adjustments for a fuller picture of economic evolution.
+:::
+
+## Part C — GDP, welfare, and empirical justification (LO 2.1 and  2.4)
+
+Design a welfare dashboard with 5–7 indicators that should be reported alongside Real GDP PPP for cross-country comparisons. The indicators should come from the World Bank's World Development Indicator. You can access them via FRED using their API.
+
+Requirements:
+
+1. Each indicator must be:
+   - Clearly defined
+   - Measurable using World Bank's World Development Indicators.
+2. At least two indicators must be directly motivated by the podcast.
+3. For each indicator, explain why GDP alone fails to capture that dimension of wellbeing.
+
+::: {.callout-note title="Answer" icon="false"}
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+
+```
+
+<!-- Delete this and write your explanation. -->
+:::
+
+For at least three of your dashboard indicators:
+
+1. Produce a scatter plot comparing the indicator to the income measure across countries in 2020, similar to the Bubbles chart in [GapMinder](https://www.gapminder.org/tools/#$chart-type=bubbles&url=v2).
+2. Report either:
+    - A correlation coefficient, or  
+    - A regression relationship (students who have completed ECON 388 are encouraged to use a regression).
+3. Interpret the strength (or weakness) of these relationships, your goal is not to prove causality, but to evaluate whether these indicators are empirically related to income and whether they add distinct information.
+
+::: {.callout-note title="Answer" icon="false"}
+
+```{python}
+#| code-fold: true
+#| code-summary: "Show the code"
+
+# Example code for fetching WDI indicators and plotting (customize indicators based on your dashboard design)
+# Fetch Real GDP PPP and sample indicators for 2020 (replace with your chosen indicators)
+indicators = {
+    'NY.GDP.PCAP.PP.KD': 'GDP_PPP_per_capita',  # Real GDP per capita (PPP, constant 2017 USD)
+    'SP.DYN.LE00.IN': 'Life_Expectancy',        # Life expectancy at birth (years)
+    'SH.XPD.CHEX.PC.CD': 'Health_Expenditure_per_capita',  # Current health expenditure per capita (current US$)
+    'SE.ADT.LITR.ZS': 'Literacy_Rate',          # Literacy rate, adult total (%)
+    'SI.POV.GINI': 'Gini_Coefficient'           # Gini index (World Bank estimate)
+    # CO2 Emissions indicator not available in WDI; replaced with Gini for inequality
+}
+wdi_df = fetch_wdi_indicators(indicators, start_year=2020, end_year=2020)
+
+# For at least three indicators, produce scatter plots and report correlation/regression
+selected_indicators = ['Life_Expectancy', 'Health_Expenditure_per_capita', 'Literacy_Rate', 'Gini_Coefficient']  # Your chosen indicators (CO2 removed due to unavailability)
+for indicator in selected_indicators:
+    stats = scatter_vs_income(wdi_df.reset_index(), indicator_col=indicator, income_col='GDP_PPP_per_capita', year=2020)
+    print(f"{indicator} vs GDP PPP: Pearson r = {stats['pearson_r']:.3f}, p-value = {stats['p_value']:.3f}")
+    # For regression, uncomment: print(f"Regression: {stats['regression_params']}")
+
+```
+
+The scatter plots and correlations reveal how the selected wellbeing indicators relate to Real GDP per capita (PPP) across countries in 2020. Life Expectancy shows a strong positive correlation (r = 0.754, p < 0.001), indicating that higher-income countries tend to have longer lifespans, likely due to better healthcare access. Health Expenditure per Capita also correlates strongly (r = 0.802, p < 0.001), as wealthier nations invest more in health systems. Literacy Rate has a moderate positive link (r = 0.523, p < 0.001), suggesting education improves with income but with diminishing returns in high-income areas. Gini Coefficient shows a moderate negative correlation (r = -0.409, p < 0.001), meaning higher inequality in some wealthy countries, though outliers exist (e.g., high-inequality rich nations).
+
+These relationships are associations, not causations; income enables but doesn't guarantee wellbeing. The indicators add distinct information: Life Expectancy and Health Expenditure capture health dimensions GDP ignores, while Literacy addresses education and Gini highlights inequality. Caveats include data quality (e.g., self-reported literacy), missing values in poorer countries, and non-linearities (e.g., literacy plateaus). Overall, they provide a more holistic view than GDP alone.
+:::
+
+1. Finally, write 300–400 words that:
+    - Explain what your results imply for international welfare measurement
+    - Discuss one indicator that you believe is especially important even if it is weakly correlated with income.
+
+::: {.callout-note title="Answer" icon="false"}
+The empirical results from this analysis underscore the critical need to expand beyond GDP-centric measures for assessing international welfare, revealing both the strengths and limitations of economic output as a proxy for human wellbeing. Strong positive correlations between GDP per capita (PPP) and indicators like Life Expectancy (r = 0.754) and Health Expenditure per Capita (r = 0.802) demonstrate that higher incomes often facilitate improved health outcomes, aligning with traditional economic growth narratives. However, the moderate positive correlation with Literacy Rate (r = 0.523) and the negative association with Gini Coefficient (r = -0.409) highlight that wealth accumulation does not uniformly translate to educational equity or reduced inequality. These findings imply that international welfare measurement must incorporate multidimensional frameworks to capture non-market dimensions of wellbeing, such as health, education, and social equity, which GDP inherently overlooks due to its focus on monetary transactions and production.
+
+By relying solely on GDP, policymakers risk misallocating resources, as it may inflate the perceived progress of high-income nations while masking disparities in quality of life. For instance, countries with robust GDP growth might still exhibit high inequality or stagnant literacy rates, suggesting that wellbeing dashboards should prioritize indicators that reflect distributional outcomes and human capabilities. This approach, akin to the UN's Human Development Index or OECD's Better Life Index, enables more nuanced cross-country comparisons, fostering policies that promote sustainable and inclusive development. The correlations also reveal potential trade-offs: rapid economic expansion can exacerbate inequality, as seen in the negative Gini link, necessitating targeted interventions beyond mere growth metrics.
+
+Despite its moderate correlation with income, personal autonomy emerges as an especially important indicator for international welfare measurement. Autonomy, encompassing individual freedom, self-determination, and agency, is fundamental to human flourishing yet often weakly tied to GDP due to its non-monetary nature. In many high-income societies, economic prosperity does not guarantee personal freedoms, as evidenced by cases where wealth concentrates power and limits individual choices. Even in lower-income contexts, autonomy can thrive through community structures or cultural norms, decoupling it from financial metrics. Prioritizing autonomy in welfare assessments ensures that development efforts address psychological and social dimensions, reducing the risk of policies that enhance GDP at the expense of human dignity. Measurement challenges, such as subjective reporting or cultural biases, underscore the need for robust, context-sensitive data, but its inclusion prevents welfare frameworks from being overly economistic. Ultimately, integrating autonomy alongside health, education, and equity indicators creates a holistic view, guiding global efforts toward truly empowering human potential.
+:::
+
+
+### Rubric
+
+| Specification (with learning outcomes) | Meets Expectations | Not Yet |
+|---|---|---|
+| A1. Transaction 1 is original and borderline (LO 2.3) | Transaction is not a textbook example, is economically realistic, and is plausibly confusing for GDP inclusion/categorization. | Transaction is trivial, unrealistic, copied, or not plausibly confusing. |
+| A2. Transaction 2 is original and borderline (LO 2.3) | Second transaction meets the same criteria as A1 and is meaningfully different from Transaction 1. | Second transaction repeats the same idea, is trivial, or not plausibly confusing. |
+| A3. Required content constraint satisfied (LO 2.3) | At least one transaction involves government activity or intangibles (as required). | Neither transaction involves government activity or intangibles. |
+| A4. Multiple-choice stem is well-posed (LO 2.3) | Question stem is clear, includes all needed information, and has one unambiguous target concept (C/I/G/NX vs not-in-GDP, or inclusion logic). | Stem is ambiguous, missing key information, or tests multiple concepts at once without clarity. |
+| A5. Answer choices are well-designed (LO 2.3) | Four options (A–D), exactly one correct; distractors are plausible and correspond to common GDP misconceptions. | Wrong number of options, multiple correct answers, or distractors are implausible/obviously wrong. |
+| A6. Correct answer justification (LO 2.3) | Explanation uses correct GDP logic (final vs intermediate, transfers, production boundary, classification) and directly ties to the stem. | Explanation is definition-only, unrelated to the stem, or uses incorrect GDP logic. |
+| A7. Distractor diagnostics (LO 2.3) | Each incorrect option is explicitly diagnosed: why a student might choose it and why it is wrong. | Missing explanations for distractors or explanations are vague/incorrect. |
+| B1. Correct component coverage (LO 2.3) | Uses nominal GDP and all required expenditure components: C, I, G, X, M. | One or more components missing or replaced with a non-equivalent series. |
+| B2. Shares computed as percentages of GDP (LO 2.3) | Expenditure shares are correctly computed and reported as percentages of nominal GDP (including sign logic for NX if used). | Shares are not percentages, miscomputed, or inconsistent with national accounts arithmetic. |
+| B3. Table requirement met (LO 2.3) | Table shows the most recent five quarterly observations of all computed shares. | Table missing, wrong frequency, wrong number of observations, or incomplete columns. |
+| B4. Figure requirement met (LO 2.3) | Figure shows the evolution of the shares from 1960 to present, is readable, and identifies series plotted. | Figure missing, wrong time span, unreadable, or unclear what is plotted. |
+| B5. Long-run change identified (LO 2.3) | Interpretation clearly identifies at least one meaningful long-run composition change and cites what changed (which share, direction, approximate period). | Interpretation is vague (“things changed”) or does not identify a specific long-run change. |
+| B6. Economic explanation provided (LO 2.3) | Provides at least one plausible historical/structural explanation (policy regime, structural change, globalization, crises, demographics, etc.) tied to the observed pattern. | Explanation is missing, generic, or not connected to the observed pattern. |
+| B7. Limitation stated (LO 2.3) | States one real limitation of interpreting shares mechanically (measurement, reclassification, definition changes, composition, price effects, etc.). | No limitation provided or limitation is superficial/incorrect. |
+| C1. Dashboard size and measurability (LO 2.4.3) | Dashboard includes 5–7 indicators; each is measurable in WDI (via FRED or World Bank) and clearly named. | Too few/many indicators, or one or more indicators not measurable / not clearly identified. |
+| C2. Indicator definitions are operational (LO 2.4.3) | Each indicator has a precise definition (what is measured, units, and what “higher/lower” means). | Indicators are slogans or lack operational definitions. |
+| C3. Podcast motivation requirement met (LO 2.4.3) | At least two indicators are explicitly motivated by the podcast with a clear connection (include approximate timestamp or transcript reference). | Fewer than two indicators tied to the podcast or connections are vague. |
+| C4. “Why GDP misses it” explained for each indicator (LO 2.4.3, 2.1) | For each indicator, explanation accurately states what GDP does not capture (conceptual/measurement reason) and why the indicator adds information. | Explanations are missing, generic, or conceptually incorrect. |
+| C5. Reference income measure used consistently (LO 2.4.3) | Uses Real GDP PPP (or the stated reference measure) consistently across empirical checks; year and country coverage are coherent. | Uses inconsistent income measures, mixed years, or unclear sample construction. |
+| C6. Empirical requirement met: plots (LO 2.4.3) | Produces scatter plots for at least three indicators vs income across countries in 2020, presented clearly (GapMinder-style acceptable). | Fewer than three plots, wrong year, or plots unclear/mislabeled. |
+| C7. Empirical requirement met: statistic (LO 2.4.3) | Reports correlation coefficient or regression output for each of the three indicators and matches the statistic to the plotted data. | Missing statistics, mismatch between plots and statistics, or incorrect reporting. |
+| C8. Interpretation avoids causal overclaiming (LO 2.4.3) | Interprets strength/weakness as association; does not claim causality; comments on nonlinearity/outliers when relevant. | Makes causal claims without justification or provides no interpretation. |
+| C9. Distinct-information judgment (LO 2.4.3) | Discusses whether indicators add distinct information beyond income (e.g., strong vs weak correlation, what weak correlation might imply). | No discussion of distinct information; only restates correlation values. |
+| C10. Measurement/data caveat included (LO 2.4.3) | Notes at least one caveat (missingness, comparability, definitions, measurement error, sample selection, outliers). | No caveat provided. |
+| C11. Final synthesis meets requirements (LO 2.4.3, 2.1) | 300–400 words: explains implications for international welfare measurement and defends one “priority” indicator even if weakly correlated, with measurement-based rationale. | Missing synthesis, wrong length, or fails to connect evidence to implications and priority choice. |
+| Presentation and auditability (supports all outcomes) | Outputs are labeled and readable; series/indicator names or codes are stated; a grader can reproduce/verify what was done. | Outputs are hard to interpret, unlabeled, or data choices are not identifiable. |
+
+
